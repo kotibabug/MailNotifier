@@ -1,11 +1,11 @@
-package com.xinte.mailnotifier.utils;
+package com.xinthe.mailnotifier.utils;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
-import com.xinte.mailnotifier.receivers.ScheduledEmailCheck;
+import com.xinthe.mailnotifier.receivers.ScheduledEmailCheck;
 
 /**
  * Created by Koti on 18-02-2018.

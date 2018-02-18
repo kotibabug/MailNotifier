@@ -1,9 +1,9 @@
-package com.xinte.mailnotifier;
+package com.xinthe.mailnotifier;
 
 import android.app.Application;
 import android.arch.persistence.room.Room;
 
-import com.xinte.mailnotifier.db.AppDatabase;
+import com.xinthe.mailnotifier.db.AppDatabase;
 
 /**
  * Created by Koti on 18-02-2018.

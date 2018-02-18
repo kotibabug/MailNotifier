@@ -1,4 +1,4 @@
-package com.xinte.mailnotifier;
+package com.xinthe.mailnotifier;
 
 import org.junit.Test;
 

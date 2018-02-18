@@ -1,8 +1,5 @@
-package com.xinte.mailnotifier.ui.activity;
+package com.xinthe.mailnotifier.ui.activity;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,11 +10,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.xinte.mailnotifier.MailNotifier;
-import com.xinte.mailnotifier.R;
-import com.xinte.mailnotifier.db.AppDatabase;
-import com.xinte.mailnotifier.receivers.ScheduledEmailCheck;
-import com.xinte.mailnotifier.utils.Utils;
+import com.xinthe.mailnotifier.MailNotifier;
+import com.xinthe.mailnotifier.R;
+import com.xinthe.mailnotifier.db.AppDatabase;
+import com.xinthe.mailnotifier.utils.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -1,4 +1,4 @@
-package com.xinte.mailnotifier.db;
+package com.xinthe.mailnotifier.db;
 
 import android.arch.persistence.room.ColumnInfo;
 

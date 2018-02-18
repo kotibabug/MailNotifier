@@ -1,16 +1,14 @@
-package com.xinte.mailnotifier.ui.activity;
+package com.xinthe.mailnotifier.ui.activity;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.PowerManager;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.WindowManager;
-import android.widget.Button;
 
 import com.skyfishjy.library.RippleBackground;
-import com.xinte.mailnotifier.R;
+import com.xinthe.mailnotifier.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

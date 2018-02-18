@@ -1,4 +1,4 @@
-package com.xinte.mailnotifier;
+package com.xinthe.mailnotifier;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

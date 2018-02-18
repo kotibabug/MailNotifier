@@ -1,9 +1,9 @@
-package com.xinte.mailnotifier.db;
+package com.xinthe.mailnotifier.db;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
 
-import com.xinte.mailnotifier.db.dao.AccountDao;
+import com.xinthe.mailnotifier.db.dao.AccountDao;
 
 /**
  * Created by Koti on 18-02-2018.

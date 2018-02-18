@@ -1,4 +1,4 @@
-package com.xinte.mailnotifier.db.dao;
+package com.xinthe.mailnotifier.db.dao;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
@@ -7,7 +7,7 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import com.xinte.mailnotifier.db.Account;
+import com.xinthe.mailnotifier.db.Account;
 
 /**
  * Created by Koti on 18-02-2018.

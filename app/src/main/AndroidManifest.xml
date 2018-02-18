@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.xinte.mailnotifier">
+    package="com.xinthe.mailnotifier">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
 
     <application
-        android:name=".MailNotifier"
+        android:name="com.xinthe.mailnotifier.MailNotifier"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
-            android:name=".ui.activity.EmailSetupActivity"
+            android:name="com.xinthe.mailnotifier.ui.activity.EmailSetupActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,24 +24,24 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.HomeActivity"
+            android:name="com.xinthe.mailnotifier.ui.activity.HomeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.NotifierActivity"
+            android:name="com.xinthe.mailnotifier.ui.activity.NotifierActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.FullScreen" />
 
-        <service android:name=".services.EmailSyncerService" />
+        <service android:name="com.xinthe.mailnotifier.services.EmailSyncerService" />
 
         <receiver
-            android:name=".receivers.ScheduledEmailCheck"
+            android:name="com.xinthe.mailnotifier.receivers.ScheduledEmailCheck"
             android:process=":remote">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"></action>
             </intent-filter>
         </receiver>
-        <receiver android:name=".receivers.MailReceiver">
+        <receiver android:name="com.xinthe.mailnotifier.receivers.MailReceiver">
             <intent-filter>
                 <action android:name="New-Mail-Receiver"></action>
             </intent-filter>

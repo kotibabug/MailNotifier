@@ -1,17 +1,16 @@
-package com.xinte.mailnotifier.services;
+package com.xinthe.mailnotifier.services;
 
 import android.app.IntentService;
 import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.sun.mail.pop3.POP3Store;
-import com.xinte.mailnotifier.MailNotifier;
-import com.xinte.mailnotifier.R;
-import com.xinte.mailnotifier.db.Account;
-import com.xinte.mailnotifier.db.AppDatabase;
-import com.xinte.mailnotifier.db.Mail;
-import com.xinte.mailnotifier.utils.Utils;
+import com.xinthe.mailnotifier.MailNotifier;
+import com.xinthe.mailnotifier.R;
+import com.xinthe.mailnotifier.db.Account;
+import com.xinthe.mailnotifier.db.AppDatabase;
+import com.xinthe.mailnotifier.db.Mail;
+import com.xinthe.mailnotifier.utils.Utils;
 
 import java.util.Properties;
 

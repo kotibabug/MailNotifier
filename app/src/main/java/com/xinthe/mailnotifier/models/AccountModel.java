@@ -1,4 +1,4 @@
-package com.xinte.mailnotifier.models;
+package com.xinthe.mailnotifier.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;

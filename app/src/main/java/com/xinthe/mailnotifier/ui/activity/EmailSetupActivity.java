@@ -1,4 +1,4 @@
-package com.xinte.mailnotifier.ui.activity;
+package com.xinthe.mailnotifier.ui.activity;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -10,18 +10,16 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
-import com.xinte.mailnotifier.MailNotifier;
-import com.xinte.mailnotifier.R;
-import com.xinte.mailnotifier.db.Account;
-import com.xinte.mailnotifier.db.AppDatabase;
-import com.xinte.mailnotifier.db.Mail;
-import com.xinte.mailnotifier.models.AccountModel;
-import com.xinte.mailnotifier.services.EmailSyncerService;
+import com.xinthe.mailnotifier.MailNotifier;
+import com.xinthe.mailnotifier.R;
+import com.xinthe.mailnotifier.db.Account;
+import com.xinthe.mailnotifier.db.AppDatabase;
+import com.xinthe.mailnotifier.db.Mail;
+import com.xinthe.mailnotifier.services.EmailSyncerService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

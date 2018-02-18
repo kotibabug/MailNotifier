@@ -1,10 +1,10 @@
-package com.xinte.mailnotifier.receivers;
+package com.xinthe.mailnotifier.receivers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.xinte.mailnotifier.ui.activity.NotifierActivity;
+import com.xinthe.mailnotifier.ui.activity.NotifierActivity;
 
 /**
  * Created by Koti on 18-02-2018.
