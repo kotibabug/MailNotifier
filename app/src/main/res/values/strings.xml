@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Mail Notifier</string>
+    <string name="title_email_setup">Email Setup</string>
+    <string name="hint_host">Host</string>
+    <string name="hint_store_type">Store Type</string>
+    <string name="hint_username">Username</string>
+    <string name="hint_password">Password</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_submit">Submit</string>
+    <string name="extra_account">account</string>
+    <string name="hint_port">Port</string>
+    <string name="dbname">mailnotifier</string>
+    <string name="extra_status">status</string>
+    <string name="receiver_accountsetup">accountsetup</string>
+    <string name="title_home">Home</string>
+    <string name="extra_username">username</string>
+</resources>
