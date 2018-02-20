@@ -2,6 +2,7 @@ package com.xinthe.mailnotifier.services;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 
 import com.sun.mail.pop3.POP3Store;
@@ -10,6 +11,7 @@ import com.xinthe.mailnotifier.R;
 import com.xinthe.mailnotifier.db.Account;
 import com.xinthe.mailnotifier.db.AppDatabase;
 import com.xinthe.mailnotifier.db.Mail;
+import com.xinthe.mailnotifier.interfaces.AccountListener;
 import com.xinthe.mailnotifier.utils.Utils;
 
 import java.util.Properties;
@@ -24,7 +26,9 @@ import javax.mail.Session;
  * Created by Koti on 18-02-2018.
  */
 
-public class EmailSyncerService extends IntentService {
+public class EmailSyncerService extends IntentService implements AccountListener {
+    private AccountService accountService;
+    private Account account;
 
     public EmailSyncerService() {
         super("Email Syncer");
@@ -32,9 +36,11 @@ public class EmailSyncerService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        // accountModel = intent.getParcelableExtra(getString(R.string.extra_account));
-        AppDatabase appDatabase = ((MailNotifier) getApplication()).getDatabaseInstance();
-        Account account = appDatabase.accountDao().getAccount();
+        accountService = new AccountService(getApplicationContext(), this);
+        accountService.getAccount();
+    }
+
+    private void fetchMails() {
         if (account != null) {
             Properties properties = new Properties();
             properties.put("mail.pop3.host", account.getHost());
@@ -49,12 +55,10 @@ public class EmailSyncerService extends IntentService {
                     emailFolder.open(Folder.READ_ONLY);
                     Message[] messages = emailFolder.getMessages();
                     Mail mail = account.getMail();
-                    if (mail.getMailCount() > 0 && messages.length > mail.getMailCount()) {
+                    if (mail.getMailCount() > 0 && messages.length > mail.getMailCount())
                         sendNewMailBroadcast();
-                    }
                     mail.setMailCount(messages.length);
                     account.setMail(mail);
-                    appDatabase.accountDao().updateAccount(account);
                     emailFolder.close(false);
                     emailStore.close();
                     sendBroadcast(true);
@@ -67,29 +71,55 @@ public class EmailSyncerService extends IntentService {
                 }
             } else
                 sendBroadcast(false);
-
         }
     }
 
-    private void deleteAccount() {
-        AppDatabase appDatabase = ((MailNotifier) getApplication()).getDatabaseInstance();
-        Account account = appDatabase.accountDao().getAccount();
-        if (account != null)
-            appDatabase.accountDao().deleteAccount(account);
-    }
 
     private void sendBroadcast(boolean status) {
         if (!status) {
-            deleteAccount();
+            accountService.deleteAccount(account);
             Utils.cancelAlarm(this);
-        }
+        } else
+            accountService.updateAccount(account);
         Intent intent = new Intent(getString(R.string.receiver_accountsetup));
         intent.putExtra(getString(R.string.extra_status), status);
         sendBroadcast(intent);
     }
 
     private void sendNewMailBroadcast() {
-        Intent intent = new Intent("New-Mail-Receiver");
+        Intent intent = new Intent(getString(R.string.action_new_mail_receiver));
         sendBroadcast(intent);
+    }
+
+    @Override
+    public void onAccountCreated(Account account) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void onAccountDeleted() {
+
+    }
+
+    @Override
+    public void onGetAccount(Account account) {
+        this.account = account;
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                fetchMails();
+            }
+        });
+
+    }
+
+    @Override
+    public void onError(int errorCode, String error) {
+
+    }
+
+    @Override
+    public void onUpdateAccount(Account account) {
+
     }
 }

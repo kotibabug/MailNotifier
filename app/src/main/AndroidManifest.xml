@@ -5,9 +5,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
-
     <application
-        android:name="com.xinthe.mailnotifier.MailNotifier"
+        android:name=".MailNotifier"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
@@ -15,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity
-            android:name="com.xinthe.mailnotifier.ui.activity.EmailSetupActivity"
+            android:name=".ui.activity.EmailSetupActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,32 +23,42 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.xinthe.mailnotifier.ui.activity.HomeActivity"
+            android:name=".ui.activity.HomeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.xinthe.mailnotifier.ui.activity.NotifierActivity"
+            android:name=".ui.activity.NotifierActivity"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.FullScreen" />
 
-        <service android:name="com.xinthe.mailnotifier.services.EmailSyncerService" />
+        <service android:name=".services.EmailSyncerService" />
 
         <receiver
-            android:name="com.xinthe.mailnotifier.receivers.ScheduledEmailCheck"
+            android:name=".receivers.ScheduledEmailCheck"
             android:process=":remote">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.xinthe.mailnotifier.receivers.MailReceiver">
+        <receiver android:name=".receivers.MailReceiver">
             <intent-filter>
-                <action android:name="New-Mail-Receiver"></action>
+                <action android:name="New-Mail-Receiver" />
             </intent-filter>
         </receiver>
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <receiver android:name=".receivers.EmailWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/email_widget_info" />
+        </receiver>
     </application>
 
 </manifest>

@@ -12,7 +12,10 @@ import android.widget.TextView;
 
 import com.xinthe.mailnotifier.MailNotifier;
 import com.xinthe.mailnotifier.R;
+import com.xinthe.mailnotifier.db.Account;
 import com.xinthe.mailnotifier.db.AppDatabase;
+import com.xinthe.mailnotifier.interfaces.AccountListener;
+import com.xinthe.mailnotifier.services.AccountService;
 import com.xinthe.mailnotifier.utils.Utils;
 
 import butterknife.BindView;
@@ -22,12 +25,14 @@ import butterknife.ButterKnife;
  * Created by Koti on 18-02-2018.
  */
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements AccountListener {
 
     @BindView(R.id.toolBar)
     Toolbar toolBar;
     @BindView(R.id.username)
     TextView username;
+    private AccountService accountService;
+    private Account account;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,7 +42,9 @@ public class HomeActivity extends AppCompatActivity {
         toolBar.setTitle(R.string.title_home);
         setSupportActionBar(toolBar);
         Utils.scheduleAlarm(this);
-        username.setText(getIntent().getStringExtra(getString(R.string.extra_username)));
+        account = getIntent().getParcelableExtra(getString(R.string.extra_account));
+        username.setText(account.getUsername());
+        accountService = new AccountService(getBaseContext(), this);
     }
 
 
@@ -51,30 +58,36 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.logout:
-                new Logout().execute();
+                accountService.deleteAccount(account);
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    class Logout extends AsyncTask<Void, Void, Integer> {
-        @Override
-        protected Integer doInBackground(Void... voids) {
-            AppDatabase db = ((MailNotifier) getApplication()).getDatabaseInstance();
-            int count = db.accountDao().deleteAccount(db.accountDao().getAccount());
-            return count;
-        }
-
-        @Override
-        protected void onPostExecute(Integer integer) {
-            super.onPostExecute(integer);
-            if (integer > 0) {
-                Utils.cancelAlarm(HomeActivity.this);
-                startActivity(new Intent(HomeActivity.this, EmailSetupActivity.class));
-                finish();
-            }
-        }
+    @Override
+    public void onAccountCreated(Account account) {
+        throw new UnsupportedOperationException();
     }
 
+    @Override
+    public void onUpdateAccount(Account account) {
+        throw new UnsupportedOperationException();
+    }
 
+    @Override
+    public void onAccountDeleted() {
+        Utils.cancelAlarm(HomeActivity.this);
+        startActivity(new Intent(HomeActivity.this, EmailSetupActivity.class));
+        finish();
+    }
+
+    @Override
+    public void onGetAccount(Account account) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void onError(int errorCode, String error) {
+        Utils.showErrorAlert(this, error);
+    }
 }

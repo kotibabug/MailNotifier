@@ -14,4 +14,9 @@
     <string name="receiver_accountsetup">accountsetup</string>
     <string name="title_home">Home</string>
     <string name="extra_username">username</string>
+    <string name="error_create_account">Unable to create Account</string>
+    <string name="action_new_mail_receiver">New-Mail-Receiver</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="last_email_from">Last Email From:</string>
 </resources>

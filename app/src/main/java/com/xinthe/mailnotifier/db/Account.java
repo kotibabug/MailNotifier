@@ -3,6 +3,8 @@ package com.xinthe.mailnotifier.db;
 import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 /**
@@ -10,8 +12,9 @@ import android.support.annotation.NonNull;
  */
 
 @Entity
-public class Account {
-    @PrimaryKey @NonNull
+public class Account implements Parcelable {
+    @PrimaryKey
+    @NonNull
     private String username;
     private String password;
     private String host;
@@ -19,6 +22,10 @@ public class Account {
     private int port;
     @Embedded
     private Mail mail;
+
+    public Account() {
+
+    }
 
     public Mail getMail() {
         return mail;
@@ -67,4 +74,38 @@ public class Account {
     public void setPort(int port) {
         this.port = port;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(username);
+        dest.writeString(password);
+        dest.writeString(host);
+        dest.writeString(storeType);
+        dest.writeInt(port);
+    }
+
+    private Account(Parcel parcel) {
+        username = parcel.readString();
+        password = parcel.readString();
+        host = parcel.readString();
+        storeType = parcel.readString();
+        port = parcel.readInt();
+    }
+
+    public static final Parcelable.Creator<Account> CREATOR = new Parcelable.Creator<Account>() {
+        @Override
+        public Account createFromParcel(Parcel source) {
+            return new Account(source);
+        }
+
+        @Override
+        public Account[] newArray(int size) {
+            return new Account[size];
+        }
+    };
 }
