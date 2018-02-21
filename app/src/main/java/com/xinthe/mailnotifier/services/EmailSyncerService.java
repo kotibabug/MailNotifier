@@ -1,9 +1,13 @@
 package com.xinthe.mailnotifier.services;
 
 import android.app.IntentService;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
+import android.widget.RemoteViews;
 
 import com.sun.mail.pop3.POP3Store;
 import com.xinthe.mailnotifier.MailNotifier;
@@ -12,6 +16,7 @@ import com.xinthe.mailnotifier.db.Account;
 import com.xinthe.mailnotifier.db.AppDatabase;
 import com.xinthe.mailnotifier.db.Mail;
 import com.xinthe.mailnotifier.interfaces.AccountListener;
+import com.xinthe.mailnotifier.receivers.EmailWidget;
 import com.xinthe.mailnotifier.utils.Utils;
 
 import java.util.Properties;
@@ -57,8 +62,10 @@ public class EmailSyncerService extends IntentService implements AccountListener
                     Mail mail = account.getMail();
                     if (mail.getMailCount() > 0 && messages.length > mail.getMailCount())
                         sendNewMailBroadcast();
+                    mail.setLastEmailFrom(messages[messages.length - 1].getFrom()[0].toString());
                     mail.setMailCount(messages.length);
                     account.setMail(mail);
+                    updateWidget(mail.getLastEmailFrom());
                     emailFolder.close(false);
                     emailStore.close();
                     sendBroadcast(true);
@@ -74,6 +81,14 @@ public class EmailSyncerService extends IntentService implements AccountListener
         }
     }
 
+    private void updateWidget(String email) {
+        Context context = this;
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.email_widget);
+        ComponentName thisWidget = new ComponentName(context, EmailWidget.class);
+        remoteViews.setTextViewText(R.id.widget_email_from, email);
+        appWidgetManager.updateAppWidget(thisWidget, remoteViews);
+    }
 
     private void sendBroadcast(boolean status) {
         if (!status) {

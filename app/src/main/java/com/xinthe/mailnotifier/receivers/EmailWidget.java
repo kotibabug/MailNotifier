@@ -3,25 +3,32 @@ package com.xinthe.mailnotifier.receivers;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.content.Intent;
 import android.widget.RemoteViews;
 
 import com.xinthe.mailnotifier.R;
+import com.xinthe.mailnotifier.db.Account;
+import com.xinthe.mailnotifier.interfaces.AccountListener;
+import com.xinthe.mailnotifier.services.AccountService;
 
 /**
  * Implementation of App Widget functionality.
  */
-public class EmailWidget extends AppWidgetProvider {
+public class EmailWidget extends AppWidgetProvider implements AccountListener {
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId) {
+    private AppWidgetManager appWidgetManager;
+    private int appWidgetId;
+    private Context context;
 
-        CharSequence widgetText = context.getString(R.string.appwidget_text);
-        // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.email_widget);
-        views.setTextViewText(R.id.appwidget_text, widgetText);
+    void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
+                         int appWidgetId) {
 
-        // Instruct the widget manager to update the widget
-        appWidgetManager.updateAppWidget(appWidgetId, views);
+        this.context = context;
+        this.appWidgetManager = appWidgetManager;
+        this.appWidgetId = appWidgetId;
+        AccountService accountService = new AccountService(context, this);
+        accountService.getAccount();
+
     }
 
     @Override
@@ -41,5 +48,34 @@ public class EmailWidget extends AppWidgetProvider {
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
     }
+
+    @Override
+    public void onAccountCreated(Account account) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void onAccountDeleted() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void onGetAccount(Account account) {
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.email_widget);
+        views.setTextViewText(R.id.widget_email_from, account.getMail().getLastEmailFrom());
+        appWidgetManager.updateAppWidget(appWidgetId, views);
+    }
+
+    @Override
+    public void onUpdateAccount(Account account) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void onError(int errorCode, String error) {
+
+    }
+
+
 }
 

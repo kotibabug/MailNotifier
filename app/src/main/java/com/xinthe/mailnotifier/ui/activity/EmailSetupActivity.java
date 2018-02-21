@@ -141,7 +141,7 @@ public class EmailSetupActivity extends AppCompatActivity implements AccountList
 
     @Override
     public void onError(int code, String error) {
-        if (code == Constants.CREATE_ACCOUNT_ERROR)
-            Utils.showErrorAlert(this, error);
+        //if (code == Constants.CREATE_ACCOUNT_ERROR)
+          // Utils.showErrorAlert(this, error);
     }
 }
