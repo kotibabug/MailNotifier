@@ -31,7 +31,15 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar.FullScreen" />
 
-        <service android:name=".services.EmailSyncerService" />
+        <service
+            android:name=".services.EmailSyncerService"
+            android:exported="false" />
+
+        <service android:name=".services.EmailSyncerJobService">
+            <intent-filter>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"></action>
+            </intent-filter>
+        </service>
 
         <receiver
             android:name=".receivers.ScheduledEmailCheck"

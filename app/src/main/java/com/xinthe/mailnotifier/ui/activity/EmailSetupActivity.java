@@ -1,6 +1,8 @@
 package com.xinthe.mailnotifier.ui.activity;
 
+import android.app.job.JobInfo;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,6 +19,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
+import com.firebase.jobdispatcher.Constraint;
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
+import com.firebase.jobdispatcher.Job;
+import com.firebase.jobdispatcher.Lifetime;
+import com.firebase.jobdispatcher.Trigger;
 import com.xinthe.mailnotifier.MailNotifier;
 import com.xinthe.mailnotifier.R;
 import com.xinthe.mailnotifier.db.Account;
@@ -24,6 +32,7 @@ import com.xinthe.mailnotifier.db.AppDatabase;
 import com.xinthe.mailnotifier.db.Mail;
 import com.xinthe.mailnotifier.interfaces.AccountListener;
 import com.xinthe.mailnotifier.services.AccountService;
+import com.xinthe.mailnotifier.services.EmailSyncerJobService;
 import com.xinthe.mailnotifier.services.EmailSyncerService;
 import com.xinthe.mailnotifier.utils.Constants;
 import com.xinthe.mailnotifier.utils.Utils;
@@ -50,6 +59,7 @@ public class EmailSetupActivity extends AppCompatActivity implements AccountList
     ProgressBar progressBar;
     private AccountService accountService;
 
+    //https://lorentzos.com/rxjava-as-event-bus-the-right-way-10a36bdd49ba
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -103,8 +113,10 @@ public class EmailSetupActivity extends AppCompatActivity implements AccountList
         public void onReceive(Context context, Intent intent) {
             boolean status = intent.getBooleanExtra(getString(R.string.extra_status), false);
             progressBar.setVisibility(View.INVISIBLE);
-            if (status)
+            if (status) {
+                EmailSyncerJobService.callPeriodicEmailCheckerJobService(EmailSetupActivity.this);
                 accountService.getAccount();
+            }
             else
                 Utils.showErrorAlert(EmailSetupActivity.this, getString(R.string.error_create_account));
         }
@@ -142,6 +154,8 @@ public class EmailSetupActivity extends AppCompatActivity implements AccountList
     @Override
     public void onError(int code, String error) {
         //if (code == Constants.CREATE_ACCOUNT_ERROR)
-          // Utils.showErrorAlert(this, error);
+        // Utils.showErrorAlert(this, error);
     }
+
+
 }

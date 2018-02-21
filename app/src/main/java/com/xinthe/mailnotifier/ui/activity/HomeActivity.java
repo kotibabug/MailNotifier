@@ -10,12 +10,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
 import com.xinthe.mailnotifier.MailNotifier;
 import com.xinthe.mailnotifier.R;
 import com.xinthe.mailnotifier.db.Account;
 import com.xinthe.mailnotifier.db.AppDatabase;
 import com.xinthe.mailnotifier.interfaces.AccountListener;
 import com.xinthe.mailnotifier.services.AccountService;
+import com.xinthe.mailnotifier.services.EmailSyncerJobService;
 import com.xinthe.mailnotifier.utils.Utils;
 
 import butterknife.BindView;
@@ -58,6 +61,7 @@ public class HomeActivity extends AppCompatActivity implements AccountListener {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.logout:
+                EmailSyncerJobService.cancelJobService(this);
                 accountService.deleteAccount(account);
                 break;
         }
